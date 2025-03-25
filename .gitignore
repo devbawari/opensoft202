@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+*.venv
+*.env
+
+# Django-related
+db.sqlite3
+db.sqlite3-journal
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables and secrets
+.env
+.envrc
+*.pem
+config/settings/local.py
+config/settings/.local_settings.py
+
+# Static files (collected via collectstatic)
+staticfiles/
+static/
+
+# Media files (uploaded by users)
+media/
+
+# Ignore the node_modules if using frontend integration like React/Vue
+node_modules/
+
+# Ignore VSCode and PyCharm IDE settings
+.vscode/
+.idea/
+
+# Ignore deployment files
+*.DS_Store
+*.bak
+*.swp
+
+# Ignore migrations cache files (optional, but useful)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+**/migrations/*.pyo
