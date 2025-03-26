@@ -69,7 +69,7 @@ class Review_Performance(models.Model):
     performance_rating=models.IntegerField()
     manager_feedback=models.CharField(choices=choice_feed,max_length=50)
     promotion_consideration=models.BooleanField()
-    review_period=models.CharField(choices=choice_review)
+    review_period=models.CharField(choices=choice_review,max_length=50)
 
     def __str__(self):
         return f"review for {self.employee.username}"

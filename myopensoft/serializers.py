@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from .models import Employee, Award, Leave, DailyActivity, Review_Performance, Mood
-from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
+from .models import Employee, Award, Leave, DailyActivity, Review_Performance, Mood
 
 class EmployeeSerializer(serializers.ModelSerializer):
     awards = serializers.SerializerMethodField()
@@ -28,18 +27,15 @@ class SignupSerializer(serializers.Serializer):
         if employee.username:
             raise serializers.ValidationError("Employee is already signed up.")
 
-        # Ensure password is properly hashed before saving
-        hashed_password = make_password(validated_data['password'])
+        # Hash password before saving
         employee.username = validated_data['username']
-        employee.password = hashed_password
+        employee.password = make_password(validated_data['password'])
         employee.save()
         return employee
-
 
 class LoginSerializer(serializers.Serializer):
     employee_id = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True, required=True)
-
 
 class MoodSerializer(serializers.ModelSerializer):
     class Meta:
