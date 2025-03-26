@@ -12,8 +12,10 @@ from .serializers import EmployeeDashboardSerializer,SignupSerializer, LoginSeri
 from django.utils.timezone import now
 from rest_framework import status
 
+@csrf_exempt  # Remove in production
 @api_view(['POST'])
 def signup(request):
+    print(request.data)  # Debug
     serializer = SignupSerializer(data=request.data)
     if serializer.is_valid():
         employee = serializer.save()
