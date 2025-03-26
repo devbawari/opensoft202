@@ -15,40 +15,39 @@ from .serializers import EmployeeDashboardSerializer, SignupSerializer, LoginSer
 
 # Set up logging for debugging
 logger = logging.getLogger(__name__)
-
 @api_view(['POST'])
 def signup(request):
-    logger.info("Signup request received with data: %s", request.data)
+    print("Received signup request with data:", request.data)  # Debug
 
     serializer = SignupSerializer(data=request.data)
+    
     if serializer.is_valid():
         employee = serializer.save()
         return Response(
             {'message': 'Signup successful', 'employee_id': employee.employee_id},
             status=status.HTTP_201_CREATED
         )
-    
-    logger.error("Signup failed: %s", serializer.errors)
+
+    print("Signup failed with errors:", serializer.errors)  # Debug
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 def login_and_get_employee(request):
     logger.info("Login request received with data: %s", request.data)
-
     serializer = LoginSerializer(data=request.data)
     if not serializer.is_valid():
         logger.error("Login validation failed: %s", serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     employee = get_object_or_404(Employee, employee_id=serializer.validated_data['employee_id'])
+    print(f"Employee password in DB: {employee.password}")
+    if not employee.password:  # If it's None, raise an error
+        return Response({'error': 'Password not set for this employee'}, status=status.HTTP_400_BAD_REQUEST)
 
     if not check_password(serializer.validated_data['password'], employee.password):
-        logger.warning("Invalid credentials for employee ID: %s", employee.employee_id)
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-    employee_data = EmployeeSerializer(employee).data
-    return Response(employee_data, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

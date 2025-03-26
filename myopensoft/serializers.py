@@ -27,11 +27,14 @@ class SignupSerializer(serializers.Serializer):
         employee = Employee.objects.get(employee_id=validated_data['employee_id'])
         if employee.username:
             raise serializers.ValidationError("Employee is already signed up.")
-        
+
+        # Ensure password is properly hashed before saving
+        hashed_password = make_password(validated_data['password'])
         employee.username = validated_data['username']
-        employee.password = make_password(validated_data['password'])
+        employee.password = hashed_password
         employee.save()
         return employee
+
 
 class LoginSerializer(serializers.Serializer):
     employee_id = serializers.CharField(required=True)
