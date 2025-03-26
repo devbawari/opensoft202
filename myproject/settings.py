@@ -67,8 +67,10 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # ✅ Corrected Database Configuration
 DATABASES = {
-    'default': dj_database_url.parse(os.getenv('DATABASE_URL', ''))
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
+
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -77,6 +79,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+}
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

@@ -15,12 +15,12 @@ from .serializers import EmployeeDashboardSerializer, SignupSerializer, LoginSer
 
 # Set up logging for debugging
 logger = logging.getLogger(__name__)
+@csrf_exempt
 @api_view(['POST'])
 def signup(request):
-    print("Received signup request with data:", request.data)  # Debug
+    print("Received signup request with data:", request.data)  # Debugging step
 
     serializer = SignupSerializer(data=request.data)
-    
     if serializer.is_valid():
         employee = serializer.save()
         return Response(
@@ -28,9 +28,8 @@ def signup(request):
             status=status.HTTP_201_CREATED
         )
 
-    print("Signup failed with errors:", serializer.errors)  # Debug
+    print("Signup failed with errors:", serializer.errors)  # Debugging step
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['POST'])
 def login_and_get_employee(request):
