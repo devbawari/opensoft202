@@ -86,3 +86,7 @@ def employee_dashboard(request, employee_id):
 
     logger.info("Dashboard data successfully fetched for employee ID: %s", employee_id)
     return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def home(request):
+    return JsonResponse({'message': 'Welcome to the MyOpenSoft API!'})
